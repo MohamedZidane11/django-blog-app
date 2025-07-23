@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .article { border: 1px solid #ddd; padding: 20px; margin: 20px 0; }
+        .article h2 { color: #333; }
+        .date { color: #666; font-size: 14px; }
+        nav a { margin: 0 10px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="/admin/">C.Panel</a>
+        </nav>
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
