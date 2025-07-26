@@ -1,8 +1,12 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>{% block title %}My Blog{% endblock %}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
