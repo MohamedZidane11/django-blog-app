@@ -3,16 +3,65 @@
 {% block content %}
     <h1>Welcome to my Blog</h1>
 
+    <!-- search box -->
+    <div style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 5px;">
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text"
+                   name="search"
+                   placeholder="search in articles..."
+                   value="{{ search_query|default:'' }}"
+                   style="width: 70%; padding: 10px; border: 1px solid #ddd; border-radius: 3px;">
+            <button type="submit"
+                    style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                search
+            </button>
+            {% if search_query %}
+                <a href="{% url 'home' %}"
+                   style="margin-right: 10px; color: #666; text-decoration: none;">
+                   delete search ✕
+                </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- search result -->
+    {% if search_query %}
+        <p style="color: #666; margin: 10px 0;">
+            search result about: "<strong>{{ search_query }}</strong>"
+            ({{ articles.count }} results)
+        </p>
+    {% endif %}
+
+    <!-- articles -->
     {% if articles %}
         {% for article in articles %}
             <div class="article">
-                <h2><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h2>
+                <h2><a href="{% url 'article_detail' article.id %}">
+                    {% if search_query %}
+                        {{ article.title|safe }}
+                    {% else %}
+                        {{ article.title }}
+                    {% endif %}
+                </a></h2>
                 <p class="date">Publish Date:{{ article.created_at|date:"d M Y" }}</p>
-                <p>{{ article.content|truncatewords:30 }}</p>
+                <p>
+                    {% if search_query %}
+                        {{ article.content|truncatewords:30|safe }}
+                    {% else %}
+                        {{ article.content|truncatewords:30 }}
+                    {% endif %}
+                </p>
                 <a href="{% url 'article_detail' article.id %}">Read more...</a>
             </div>
         {% endfor %}
     {% else %}
-        <p>There is no articles right now ...</p>
+        {% if search_query %}
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <h3>no reasult found</h3>
+                <p>try other search words <a href="{% url 'home' %}">see all articles</a></p>
+            </div>
+        {% else %}
+            <p>There is no articles right now ...</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
